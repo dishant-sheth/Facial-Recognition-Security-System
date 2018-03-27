@@ -62,6 +62,18 @@ exports.findUser = function findUser(_id){
     }); 
 };
 
+exports.deleteUser = function deleteUser(_id){
+    return new Promise((resolve, reject) => {
+        User.findByIdAndRemove(_id, (err, user) => {
+            if(err){
+                reject({ code: 422, message: err.message });
+                return false;
+            }
+            resolve(user);
+        });
+    });
+}
+
 exports.checkTimePermission = function checkTimePermission(_id){
     return new Promise((resolve, reject) => {
         let thisUser;

@@ -34,6 +34,16 @@ router.get('/:id', (req, res) => {
     });
 });
 
+router.delete('/:id', (req, res) => {
+  userSvc.deleteUser(req.params.id)
+    .then((result) => {
+      res.status(200).send(result);
+    })
+    .catch((error) => {
+      res.status(error.code).send(error);
+    });
+});
+
 router.get('/check-time-permission/:id', (req, res) => {
   let message;
   userSvc.checkTimePermission(req.params.id)
