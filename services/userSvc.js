@@ -9,7 +9,7 @@ exports.createUser = function createUser(data){
             name: data.name,
             email: data.email || '',
             mobile_number: data.mobile_number,
-            password: data.password,
+            password: data.password || '',
             role: data.role,
             permissions: {
                 start_time: data.permissions.start_time || '',
@@ -18,7 +18,7 @@ exports.createUser = function createUser(data){
             facial_images: data.facial_images || [],
             fcm_token: data.fcm_token || '',
         };
-        if(data.start_timestamp && data.end_timestamp){
+        if(data.permissions.start_date && data.permissions.end_date){
             user.permissions.start_date = data.permissions.start_date;
             user.permissions.end_date = data.permissions.end_date;
         }
