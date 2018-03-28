@@ -19,8 +19,8 @@ exports.createUser = function createUser(data){
             fcm_token: data.fcm_token || '',
         };
         if(data.permissions.start_date && data.permissions.end_date){
-            user.permissions.start_date = new Date(data.permissions.start_date);
-            user.permissions.end_date = new Date(data.permissions.end_date);
+            user.permissions.start_date = data.permissions.start_date;
+            user.permissions.end_date = data.permissions.end_date;
         }
         console.log(userData);
         const user = new User(userData);
@@ -85,8 +85,8 @@ exports.checkTimePermission = function checkTimePermission(_id){
                 }
                 if(thisUser.role === 'guest'){
                     let date = new Date();
-                    let startDate = thisUser.permissions.start_date;
-                    let endDate = thisUser.permissions.end_date;
+                    let startDate = new Date(thisUser.permissions.start_date);
+                    let endDate = new Date(thisUser.permissions.end_date);
                     if(date >= startDate && date <= endDate){
                         resolve({ message: 'Permission Granted.', data: { user: thisUser } });
                     }
