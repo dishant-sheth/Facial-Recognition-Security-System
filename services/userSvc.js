@@ -12,15 +12,15 @@ exports.createUser = function createUser(data){
             password: data.password,
             role: data.role,
             permissions: {
-                start_time: data.start_time || '',
-                end_time: data.end_time || '',
+                start_time: data.permissions.start_time || '',
+                end_time: data.permissions.end_time || '',
             },
             facial_images: data.facial_images || [],
             fcm_token: data.fcm_token || '',
         };
         if(data.start_timestamp && data.end_timestamp){
-            user.permissions.start_date = data.start_timestamp;
-            user.permissions.end_date = data.end_timestamp;
+            user.permissions.start_date = data.permissions.start_date;
+            user.permissions.end_date = data.permissions.end_date;
         }
         console.log(userData);
         const user = new User(userData);
