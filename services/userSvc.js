@@ -19,8 +19,8 @@ exports.createUser = function createUser(data){
             fcm_token: data.fcm_token || '',
         };
         if(data.permissions.start_date && data.permissions.end_date){
-            user.permissions.start_date = data.permissions.start_date;
-            user.permissions.end_date = data.permissions.end_date;
+            user.permissions.start_date = new Date(data.permissions.start_date);
+            user.permissions.end_date = new Date(data.permissions.end_date);
         }
         console.log(userData);
         const user = new User(userData);
