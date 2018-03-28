@@ -16,7 +16,14 @@ router.post('/', (req, res) => {
     });
 });
 
-router.post('/:id', multer({ storage: image_upload.storage}).single('upload'), (req, res) => {
+storage = multer.diskStorage({
+  destination: '../user_images',
+  filename: ((req, file, callback) => {
+      callback(null, file.originalname);
+  })
+});
+
+router.post('/:id', multer({ storage: storage}).single('upload'), (req, res) => {
   res.status(200).send({ message: 'Image uploaded successfully.'});
 });
 
