@@ -17,7 +17,7 @@ router.post('/', (req, res) => {
 });
 
 storage = multer.diskStorage({
-  destination: '../user_images',
+  destination: './user_images',
   filename: ((req, file, callback) => {
       callback(null, file.originalname);
   })
