@@ -1,8 +1,10 @@
 const express = require('express');
+const multer = require('multer');
 const router = express.Router();
 
 const userSvc = require('../services/userSvc');
 const logSvc = require('../services/logSvc');
+const image_upload = require('../lib/file_upload');
 
 router.post('/', (req, res) => {
   userSvc.createUser(req.body)
@@ -12,6 +14,10 @@ router.post('/', (req, res) => {
     .catch((error) => {
       res.status(error.code).send(error);
     });
+});
+
+router.post('/:id', multer({ storage: image_upload.storage}).single('upload'), (req, res) => {
+  res.status(200).send({ message: 'Image uploaded successfully.'});
 });
 
 router.get('/', (req, res) => {
