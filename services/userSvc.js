@@ -14,8 +14,8 @@ exports.createUser = function createUser(data){
             permissions: {
                 start_time: data.permissions.start_time || '',
                 end_time: data.permissions.end_time || '',
-                start_date = data.permissions.start_date || '',
-                end_date = data.permissions.end_date || '',
+                start_date: data.permissions.start_date || '',
+                end_date: data.permissions.end_date || '',
             },
             facial_images: data.facial_images || [],
             fcm_token: data.fcm_token || '',
