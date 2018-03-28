@@ -14,14 +14,12 @@ exports.createUser = function createUser(data){
             permissions: {
                 start_time: data.permissions.start_time || '',
                 end_time: data.permissions.end_time || '',
+                start_date = data.permissions.start_date || '',
+                end_date = data.permissions.end_date || '',
             },
             facial_images: data.facial_images || [],
             fcm_token: data.fcm_token || '',
         };
-        if(data.permissions.start_date && data.permissions.end_date){
-            user.permissions.start_date = data.permissions.start_date;
-            user.permissions.end_date = data.permissions.end_date;
-        }
         console.log(userData);
         const user = new User(userData);
         if(user.validateSync()){
