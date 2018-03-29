@@ -38,7 +38,7 @@ const userSchema = new Schema({
         }
     },
     facial_images: {
-        type: Array,
+        type: String,
     },
     fcm_token: {
         type: String,

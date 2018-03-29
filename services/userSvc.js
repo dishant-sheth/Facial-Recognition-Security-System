@@ -17,7 +17,7 @@ exports.createUser = function createUser(data){
                 start_date: data.permissions.start_date || '',
                 end_date: data.permissions.end_date || '',
             },
-            facial_images: data.facial_images || [],
+            facial_images: data.facial_images || '',
             fcm_token: data.fcm_token || '',
         };
         console.log(userData);
