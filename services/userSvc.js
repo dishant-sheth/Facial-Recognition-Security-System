@@ -26,6 +26,7 @@ exports.createUser = function createUser(data){
             }
             console.log(userData);
             const url = 'http://vu.adgvit.com/iot/images/' + userData.facial_images.replace(" ", "%20");
+            console.log(url);
             facialRecogSvc.enrollUser(url, userData.name)
                 .then((response) => {
                     const user = new User(userData);
