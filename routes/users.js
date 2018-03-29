@@ -36,6 +36,7 @@ router.post('/upload', multer({ storage: storage}).single('upload'), (req, res) 
 });
 
 router.post('/recognize-user', multer({ storage: search_storage}).single('upload'), (req, res) => {
+  let message = '';
   const image_url = 'http://vu.adgvit.com/iot/search_images/' + req.body.filename;
   faceRecogSvc.recognizeUser(image_url)
     .then((result) => {
@@ -50,7 +51,17 @@ router.post('/recognize-user', multer({ storage: search_storage}).single('upload
       }
     })
     .then((result) => {
-      res.status(200).send(result);
+      userSvc.checkTimePermission(result[0]._id);
+    })
+    .then((res) => {
+      message = result;
+      const logData = {
+        user_id: req.params.id,
+      };
+      return logSvc.addLog(logData);
+    })
+    .then((result) => {
+      res.status(200).send(message);
     })
     .catch((error) => {
       res.status(400).send(error);
