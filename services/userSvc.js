@@ -4,35 +4,43 @@ const User = require('../resources/users');
 
 exports.createUser = function createUser(data){
     return new Promise((resolve, reject) => {
-        console.log(data);
-        const userData = {
-            name: data.name,
-            email: data.email || '',
-            mobile_number: data.mobile_number,
-            password: data.password || '',
-            role: data.role,
-            permissions: {
-                start_time: data.permissions.start_time || '',
-                end_time: data.permissions.end_time || '',
-                start_date: data.permissions.start_date || '',
-                end_date: data.permissions.end_date || '',
-            },
-            facial_images: data.facial_images || '',
-            fcm_token: data.fcm_token || '',
-        };
-        console.log(userData);
-        const user = new User(userData);
-        if(user.validateSync()){
-            reject({ code: 403, message: 'Bad Request' });
-            return false;
-        }
-        user.save((err, result) => {
-            if (err) {
-                reject({ code: 422, message: err.message });
+
+        try{
+            const userData = {
+                name: data.name,
+                email: data.email || '',
+                mobile_number: data.mobile_number,
+                password: data.password || '',
+                role: data.role,
+                facial_images: data.facial_images || '',
+                fcm_token: data.fcm_token || '',
+            };
+            if( userData.role === 'temp' || userData.role === 'guest'){
+                userData.permissions = {
+                    start_time: data.permissions.start_time || '',
+                    end_time: data.permissions.end_time || '',
+                    start_date: data.permissions.start_date || '',
+                    end_date: data.permissions.end_date || '',
+                };
+            }
+            console.log(userData);
+            const user = new User(userData);
+            if(user.validateSync()){
+                reject({ code: 401, message: 'Bad Request' });
                 return false;
             }
-            resolve(result);
-        });
+            user.save((err, result) => {
+                if (err) {
+                    reject({ code: 422, message: err.message });
+                    return false;
+                }
+                resolve(result);
+            });
+        }
+        catch(e){
+            reject({ code: 400, message: e.message});
+        }
+        
     });
 };
 

@@ -23,7 +23,7 @@ storage = multer.diskStorage({
   })
 });
 
-router.post('/:id', multer({ storage: storage}).single('upload'), (req, res) => {
+router.post('/upload', multer({ storage: storage}).single('upload'), (req, res) => {
   res.status(200).send({ message: 'Image uploaded successfully.'});
 });
 
