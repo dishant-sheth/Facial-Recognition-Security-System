@@ -52,6 +52,9 @@ exports.recognizeUser = function recognizeUser(image_url){
                 }
                 console.log(response.body);
                 const result = response.body.images;
+                if(result[0].transaction.status === 'failure'){
+                    reject({ message: 'The user doesn\'t exist in the userbase.' })
+                }
                 resolve(result[0]);
             });
     });
