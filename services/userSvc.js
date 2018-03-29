@@ -109,7 +109,7 @@ exports.checkTimePermission = function checkTimePermission(_id){
                         resolve({ message: 'Permission Granted.', data: { user: thisUser } });
                     }
                     else{
-                        resolve({ code: 450, message: 'No valid permission for given date and time.'});
+                        reject({ code: 450, message: 'No valid permission for given date and time.'});
                     }
                 }
                 if(thisUser.role === 'temp'){
@@ -124,7 +124,7 @@ exports.checkTimePermission = function checkTimePermission(_id){
                         resolve({ message: 'Permission Granted.', data: { user: thisUser } });
                     }
                     else{
-                        resolve({ code: 450, message: 'No valid permission for given date and time.'});
+                        reject({ code: 450, message: 'No valid permission for given date and time.'});
                     }
                 }
             })
