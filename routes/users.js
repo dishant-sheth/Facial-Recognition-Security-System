@@ -4,6 +4,7 @@ const router = express.Router();
 
 const userSvc = require('../services/userSvc');
 const logSvc = require('../services/logSvc');
+const faceRecogSvc = require('../services/facialRecognitionSvc');
 
 router.post('/', (req, res) => {
   userSvc.createUser(req.body)
@@ -22,8 +23,32 @@ storage = multer.diskStorage({
   })
 });
 
+search_storage = multer.diskStorage({
+  destination: './search_images',
+  filename: ((req, file, callback) => {
+    req.body.filename = file.originalname;
+    callback(null, file.originalname);
+  })
+});
+
 router.post('/upload', multer({ storage: storage}).single('upload'), (req, res) => {
   res.status(200).send({ message: 'Image uploaded successfully.'});
+});
+
+router.post('/recognize-user', multer({ storage: search_storage}).single('upload'), (req, res) => {
+  const image_url = 'http://vu.adgvit.com/iot/images/' + req.body.filename;
+  faceRecogSvc.recognizeUser(image_url)
+    .then((result) => {
+      const face_id = result.face_id;
+      const subject_id = result.subject_id;
+      return userSvc.getUsers({ face_id: face_id });
+    })
+    .then((response) => {
+      res.status(200).send(response);
+    })
+    .catch((error) => {
+      res.status(200).send(error);
+    });
 });
 
 router.get('/', (req, res) => {

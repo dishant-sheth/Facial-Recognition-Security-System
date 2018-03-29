@@ -6,12 +6,6 @@ const constants = require('../config');
 exports.enrollUser = function enrollUser(image_url, user_name){
     return new Promise((resolve, reject) => {
 
-        const body = {
-            image: image_url,
-            gallery_name: "IOT",
-            subject_id: user_name
-        };
-
         unirest
             .post(constants.enroll_url)
             .headers({
@@ -26,7 +20,7 @@ exports.enrollUser = function enrollUser(image_url, user_name){
             })
             .timeout(26000)
             .end((response) => {
-                if(response.body == null){
+                if(response.body === null){
                     reject({ code: 400, message: 'Failed'});
                 }
                 console.log(response.body);
@@ -35,3 +29,30 @@ exports.enrollUser = function enrollUser(image_url, user_name){
 
     });
 };
+
+exports.recognizeUser = function recognizeUser(image_url){
+    return new Promise((resolve, reject) => {
+
+        unirest
+            .post(constants.recongition_url)
+            .headers({
+                'Content-Type': 'application/json',
+                'app_id': '029aa947',
+                'app_key': '52ebec2d60c076f86dd1198e14fc9cff'
+            })
+            .send({
+                "image": image_url,
+                "gallery_name": "IOT",
+                "threshold": "0.65"
+            })
+            .timeout(26000)
+            .end((response) => {
+                if(response.body === null){
+                    reject({ code: 400, message: 'Failed'});
+                }
+                console.log(response.body);
+                const result = response.images[0].transaction;
+                resolve(result);
+            });
+    });
+}

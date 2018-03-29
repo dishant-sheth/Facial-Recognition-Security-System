@@ -29,6 +29,7 @@ exports.createUser = function createUser(data){
             console.log(url);
             facialRecogSvc.enrollUser(url, userData.name)
                 .then((response) => {
+                    userData.face_id = response.face_id;
                     const user = new User(userData);
                     if(user.validateSync()){
                         reject({ code: 401, message: 'Bad Request' });
@@ -54,9 +55,10 @@ exports.createUser = function createUser(data){
     });
 };
 
-exports.getUsers = function getUsers(){
+exports.getUsers = function getUsers(query){
     return new Promise((resolve, reject) => {
-        User.find({}, {}, (err, result) => {
+        const temp = query || {};
+        User.find(temp, {}, (err, result) => {
             if(err){
                 reject({ code: 422, message: err.message });
                 return false;
