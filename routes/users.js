@@ -39,12 +39,7 @@ router.post('/recognize-user', multer({ storage: search_storage}).single('upload
   const image_url = 'http://vu.adgvit.com/iot/search_images/' + req.body.filename;
   faceRecogSvc.recognizeUser(image_url)
     .then((result) => {
-      const face_id = result.face_id;
-      const subject_id = result.subject_id;
-      return userSvc.getUsers({ face_id: face_id });
-    })
-    .then((response) => {
-      res.status(200).send(response);
+      res.status(200).send(result);
     })
     .catch((error) => {
       res.status(200).send(error);
