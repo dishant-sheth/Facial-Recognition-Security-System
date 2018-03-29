@@ -22,7 +22,9 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 
 app.use(express.static(path.join(__dirname, 'public')));
+
 app.use('/iot/images', express.static(path.join(__dirname, 'user_images')));
+app.use('/iot/search_images', express.static(path.join(__dirname, 'search_images')));
 
 app.use('/iot/', index);
 app.use('/iot/users', users);
