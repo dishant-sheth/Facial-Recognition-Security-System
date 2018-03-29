@@ -41,7 +41,8 @@ router.post('/recognize-user', multer({ storage: search_storage}).single('upload
     .then((result) => {
       const face_id = result.transaction.face_id;
       const subject_id = result.transaction.subject_id;
-      return userSvc.getUsers({ face_id: face_id });
+      console.log(face_id + " - " + subject_id);
+      return userSvc.getUsers({ name: subject_id });
     })
     .then((result) => {
       res.status(200).send(result);

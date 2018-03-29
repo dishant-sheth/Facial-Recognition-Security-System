@@ -34,7 +34,7 @@ exports.createUser = function createUser(data){
                     if(user.validateSync()){
                         reject({ code: 401, message: 'Bad Request' });
                         return false;
-                    }
+                    }       
                     user.save((err, result) => {
                         if (err) {
                             reject({ code: 422, message: err.message });
