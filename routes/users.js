@@ -51,10 +51,11 @@ router.post('/recognize-user', multer({ storage: search_storage}).single('upload
       }
     })
     .then((result) => {
+      console.log(result);
       userSvc.checkTimePermission(result[0]._id);
     })
     .then((res) => {
-      message = result;
+      message = res;
       const logData = {
         user_id: req.params.id,
       };
