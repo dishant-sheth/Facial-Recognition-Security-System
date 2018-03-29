@@ -51,8 +51,8 @@ exports.recognizeUser = function recognizeUser(image_url){
                     reject({ code: 400, message: 'Failed'});
                 }
                 console.log(response.body);
-                const result = response.images[0].transaction;
-                resolve(result);
+                const result = response.body.images;
+                resolve(result[0]);
             });
     });
 }
