@@ -1,6 +1,7 @@
 const Promise = require('bluebird');
 
 const User = require('../resources/users');
+const facialRecogSvc = require('../services/facialRecognitionSvc');
 
 exports.createUser = function createUser(data){
     return new Promise((resolve, reject) => {
@@ -13,7 +14,7 @@ exports.createUser = function createUser(data){
                 password: data.password || '',
                 role: data.role,
                 facial_images: data.facial_images || '',
-                fcm_token: data.fcm_token || '',
+                face_id: data.face_id || '',
             };
             if( userData.role === 'temp' || userData.role === 'guest'){
                 userData.permissions = {
@@ -24,18 +25,26 @@ exports.createUser = function createUser(data){
                 };
             }
             console.log(userData);
-            const user = new User(userData);
-            if(user.validateSync()){
-                reject({ code: 401, message: 'Bad Request' });
-                return false;
-            }
-            user.save((err, result) => {
-                if (err) {
-                    reject({ code: 422, message: err.message });
-                    return false;
-                }
-                resolve(result);
-            });
+            const url = 'http://vu.adgvit.com/iot/images/' + userData.facial_images.replace(" ", "%20");
+            facialRecogSvc.enrollUser(url, userData.name)
+                .then((response) => {
+                    const user = new User(userData);
+                    if(user.validateSync()){
+                        reject({ code: 401, message: 'Bad Request' });
+                        return false;
+                    }
+                    user.save((err, result) => {
+                        if (err) {
+                            reject({ code: 422, message: err.message });
+                            return false;
+                        }
+                        resolve(result);
+                    });
+                })
+                .catch((error) => {
+                    reject(error);
+                });
+            
         }
         catch(e){
             reject({ code: 400, message: e.message});

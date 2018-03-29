@@ -41,7 +41,7 @@ const userSchema = new Schema({
         type: String,
         required: true,
     },
-    fcm_token: {
+    face_id: {
         type: String,
     },
     created_at: {
