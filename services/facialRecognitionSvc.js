@@ -25,6 +25,7 @@ exports.enrollUser = function enrollUser(image_url, user_name){
                 if(response.body == null){
                     reject({ code: 400, message: 'Failed'});
                 }
+                console.log(response);
                 resolve(response);
             });
 
