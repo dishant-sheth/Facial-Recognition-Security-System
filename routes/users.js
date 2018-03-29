@@ -4,7 +4,6 @@ const router = express.Router();
 
 const userSvc = require('../services/userSvc');
 const logSvc = require('../services/logSvc');
-const image_upload = require('../lib/file_upload');
 
 router.post('/', (req, res) => {
   userSvc.createUser(req.body)
