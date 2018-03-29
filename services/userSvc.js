@@ -105,6 +105,7 @@ exports.checkTimePermission = function checkTimePermission(_id){
                     let date = new Date();
                     let startDate = new Date(thisUser.permissions.start_date);
                     let endDate = new Date(thisUser.permissions.end_date);
+                    console.log(date + " - " + startDate + " - " + endDate);
                     if(date >= startDate && date <= endDate){
                         resolve({ message: 'Permission Granted.', data: { user: thisUser } });
                     }
