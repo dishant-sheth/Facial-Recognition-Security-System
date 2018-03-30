@@ -37,7 +37,7 @@ exports.createUser = function createUser(data){
                     }       
                     user.save((err, result) => {
                         if (err) {
-                            reject({ code: 422, message: err.message });
+                            reject({ code: 425, message: err.message });
                             return false;
                         }
                         resolve(result);

@@ -52,7 +52,7 @@ router.post('/recognize-user', multer({ storage: search_storage}).single('upload
       res.status(200).send(result);
     })
     .catch((error) => {
-      res.status(400).send(error);
+      res.status(error.code).send(error);
     });
 });
 

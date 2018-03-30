@@ -51,9 +51,12 @@ exports.recognizeUser = function recognizeUser(image_url){
                     reject({ code: 400, message: 'Failed'});
                 }
                 console.log(response.body);
+                if(response.body.Errors){
+                    reject({ code:421, message: 'The user doesn\'t exist in the userbase.' })
+                }
                 const result = response.body.images;
                 if(result[0].transaction.status === 'failure'){
-                    reject({ message: 'The user doesn\'t exist in the userbase.' })
+                    reject({ code: 422, message: 'The user doesn\'t exist in the userbase.' })
                 }
                 resolve(result[0]);
             });
